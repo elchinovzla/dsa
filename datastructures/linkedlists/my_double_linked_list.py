@@ -2,14 +2,15 @@ class Node:
     def __init__(self, value):
         self.node = {
             "value": value,
-            "next": None
+            "next": None,
+            "prev": None
         }
 
     def getNode(self):
         return self.node
 
 
-class LinkedList:
+class DoubleLinkedList:
     def __init__(self, value) -> None:
         self.head = Node(value).getNode()
         self.tail = self.head
@@ -17,30 +18,36 @@ class LinkedList:
 
     def append(self, value):
         new_node = Node(value).getNode()
+        new_node["prev"] = self.tail
         self.tail["next"] = new_node
         self.tail = new_node
         self.length += 1
 
     def prepend(self, value):
+        new_node = Node(value).getNode()
         previous_head = self.head
-        self.head = Node(value).getNode()
-        self.head["next"] = previous_head
+        previous_head["prev"] = new_node
+        new_node["next"] = previous_head
+        self.head = new_node
         self.length += 1
 
     def insert(self, value, index):
         if index <= 0:
             self.prepend(value)
+        elif index == self.length:
+            self.append(value)
         else:
-            previous_node = self.find_node(index-1)
+            node_at_index = self.find_node(index)
             new_node = Node(value).getNode()
-            new_node["next"] = previous_node["next"]
-            previous_node["next"] = new_node
+            new_node["next"] = node_at_index
+            new_node["prev"] = node_at_index["prev"]
+            previous_node_index = node_at_index["prev"]
+            node_at_index["prev"] = new_node
+            previous_node_index["next"] = new_node
             self.length += 1
 
     def find_node(self, index):
-        if index == self.length:
-            return self.tail
-        elif index > self.length:
+        if index > self.length - 1:
             raise Exception("index out of bound")
 
         current_index = 0
@@ -53,12 +60,21 @@ class LinkedList:
 
     def remove(self, index):
         if index == 0:
-            self.head = self.head["next"]
+            second_node = self.head["next"]
+            self.head = second_node
+            second_node["prev"] = None
+            self.length -= 1
+        elif index == self.length - 1:
+            second_last_node = self.tail["prev"]
+            second_last_node["next"] = None
+            self.tail = second_last_node
             self.length -= 1
         else:
-            previous_node = self.find_node(index-1)
-            node_to_be_deleted = previous_node["next"]
-            previous_node["next"] = node_to_be_deleted["next"]
+            node_at_index = self.find_node(index)
+            prev_node = node_at_index["prev"]
+            next_node = node_at_index["next"]
+            prev_node["next"] = next_node
+            next_node["prev"] = prev_node
             self.length -= 1
 
     def __str__(self) -> str:
@@ -71,11 +87,11 @@ class LinkedList:
         return returnstr
 
 
-test = LinkedList("sonny")
+test = DoubleLinkedList("sonny")
 test.append("ana")
 test.prepend("leonardo")
 test.insert("real madrid", 0)
-test.insert("new york yankees", 5)
+test.insert("new york yankees", 4)
 test.insert("sonya", 3)
 print(test)
 test.remove(5)
