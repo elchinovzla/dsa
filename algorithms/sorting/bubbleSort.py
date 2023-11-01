@@ -3,9 +3,7 @@ def bubbleSort(numbers: [int]):
     for i in range(0, collectionLength):
         for j in range(0, collectionLength-i-1):
             if numbers[j] > numbers[j+1]:
-                temp = numbers[j]
-                numbers[j] = numbers[j+1]
-                numbers[j+1] = temp
+                numbers[j], numbers[j+1] = numbers[j+1], numbers[j]
     return numbers
 
 

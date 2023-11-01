@@ -3,12 +3,10 @@ def selectionSort(numbers):
 
     for i in range(0, collectionLength):
         smallestIndex = i
-        temp = numbers[i]
         for j in range(i+1, collectionLength):
             if (numbers[j] < numbers[smallestIndex]):
                 smallestIndex = j
-        numbers[i] = numbers[smallestIndex]
-        numbers[smallestIndex] = temp
+        numbers[i], numbers[smallestIndex] = numbers[smallestIndex], numbers[i]
     return numbers
 
 
