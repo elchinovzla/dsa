@@ -13,8 +13,8 @@ def max_area(heights):
         index_left = 0
         index_right = len(heights) - 1
         while index_left < index_right:
-            new_area = min(
-                heights[index_left], heights[index_right]) * (index_right-index_left)
+            height = heights[index_left] if heights[index_left] < heights[index_right] else heights[index_right]
+            new_area = height * (index_right-index_left)
             if new_area > max_area:
                 max_area = new_area
             if heights[index_left] < heights[index_right]:
