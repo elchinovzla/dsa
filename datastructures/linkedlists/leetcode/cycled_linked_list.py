@@ -14,11 +14,13 @@ class Solution(object):
         :type head: ListNode
         :rtype: bool
         """
-        seen_nodes = set()
-        current_node = head
-        while current_node:
-            if current_node in seen_nodes:
+        hare = head
+        tortoise = head
+
+        while hare and tortoise and hare.next:
+            if hare == tortoise:
                 return True
-            seen_nodes.add(current_node)
-            current_node = current_node.next
+            hare = hare.next.next
+            tortoise = tortoise.next
+
         return False
