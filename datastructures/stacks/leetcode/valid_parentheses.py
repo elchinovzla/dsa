@@ -16,7 +16,6 @@ class Solution(object):
         for char in s:
             if char in brackets.keys():
                 open_brackets.append(char)
-            elif char in brackets.values():
-                if not open_brackets or brackets[open_brackets.pop()] != char:
-                    return False
+            elif not open_brackets or brackets[open_brackets.pop()] != char:
+                return False
         return not open_brackets
