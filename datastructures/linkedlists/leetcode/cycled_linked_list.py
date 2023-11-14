@@ -1,11 +1,11 @@
 import unittest
-# https://leetcode.com/problems/reverse-linked-list/
+# https://leetcode.com/problems/linked-list-cycle/description/
 
 
-class ListNode(object):
-    def __init__(self, val=0, next=None):
-        self.val = val
-        self.next = next
+# class ListNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
 
 
 class Solution(object):
