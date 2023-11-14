@@ -17,10 +17,11 @@ class Solution(object):
         hare = head
         tortoise = head
 
-        while hare and tortoise and hare.next:
-            if hare == tortoise:
-                return True
+        while hare and hare.next:
             hare = hare.next.next
             tortoise = tortoise.next
+
+            if hare == tortoise:
+                return True
 
         return False
