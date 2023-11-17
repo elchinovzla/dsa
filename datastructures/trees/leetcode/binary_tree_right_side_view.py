@@ -12,6 +12,9 @@ class Solution(object):
         :type root: TreeNode
         :rtype: List[int]
         """
+        return self.bfs(root)
+
+    def bfs(self, root):
         if not root:
             return []
 
@@ -31,3 +34,21 @@ class Solution(object):
             result.append(level_nodes.pop())
 
         return result
+
+    def dfs(self, root):
+        if not root:
+            return []
+
+        return self.traverse(root, [], 0)
+
+    def traverse(self, node, answer, level):
+        if node:
+            level += 1
+        if level > len(answer):
+            answer.append(node.val)
+        if node.right:
+            self.traverse(node.right, answer, level)
+        if node.left:
+            self.traverse(node.left, answer, level)
+
+        return answer
