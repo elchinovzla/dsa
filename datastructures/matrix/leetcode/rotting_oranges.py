@@ -42,8 +42,9 @@ class Solution(object):
 
             return has_an_orange_rot
 
-        def check_rotten_oranges(rotten_oranges, timer_counter):
+        def check_rotten_oranges(rotten_oranges):
             has_an_orange_rot = False
+
             while rotten_oranges:
                 current_position = rotten_oranges.pop()
                 current_row = current_position[0]
@@ -53,18 +54,17 @@ class Solution(object):
                     current_row, current_col)
                 has_an_orange_rot = has_an_orange_rot or has_a_new_orange_rot
 
-            return timer_counter + 1 if has_an_orange_rot else timer_counter
+            return has_an_orange_rot
 
         oranges = check_oranges()
         rotten_oranges = oranges.get("rotten")
         fresh_oranges = oranges.get("fresh")
 
         while rotten_oranges:
-            timer_counter = check_rotten_oranges(rotten_oranges, timer_counter)
+            were_new_oranges_rot = check_rotten_oranges(rotten_oranges)
             oranges = check_oranges()
             rotten_oranges = oranges.get("rotten")
             fresh_oranges = oranges.get("fresh")
-
-        print(rotten_oranges, fresh_oranges, timer_counter)
+            timer_counter += 1 if were_new_oranges_rot else 0
 
         return -1 if len(fresh_oranges) > 0 else timer_counter
