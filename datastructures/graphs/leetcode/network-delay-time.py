@@ -47,38 +47,27 @@ class Solution(object):
 
     def bellmanFordNetworkDelayTime(self, times, n, k):
         distances = []
-        adjList = {}
 
         for i in range(n):
             distances.append(float("inf"))
-            adjList[i] = []
 
         distances[k-1] = 0
 
-        for i in range(len(times)):
-            source = times[i][0]
-            target = times[i][1]
-            weight = times[i][2]
+        for _ in range(n-1):
+            count = 0
+            for j in range(len(times)):
+                source = times[j][0] - 1
+                target = times[j][1] - 1
+                weight = times[j][2]
+                new_weight = distances[source] + weight
+                if new_weight < distances[target]:
+                    distances[target] = new_weight
+                    count += 1
+            if count < 1:
+                break
 
-            adjList[source-1].append([target - 1, weight])
-
-        has_change_occurred = True
-        i = 0
-        while has_change_occurred and i < n-1:
-            has_change_occurred = False
-            for node_index in range(len(distances)):
-                adj = adjList[node_index]
-                for node in range(len(adj)):
-                    vertex = adj[node]
-                    target = vertex[0]
-                    weight = vertex[1]
-                    new_weight = distances[node_index] + weight
-                    if new_weight < distances[target]:
-                        distances[target] = new_weight
-                        has_change_occurred = True
-
-            i += 1
-
+        if float("inf") in distances:
+            return -1
         return max(distances)
 
 
